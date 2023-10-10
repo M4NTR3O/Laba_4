@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isInvisible
+
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_americas, true),
         Question(R.string.question_asia,true))
     private var currentIndex = 0
+    private var result_User = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
@@ -29,10 +32,10 @@ class MainActivity : AppCompatActivity() {
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
-        prevButton = findViewById(R.id.prev_button)
         questionTextView = findViewById(R.id.question_text_view)
         trueButton.setOnClickListener {
             checkAnswer(true)
+            result_User += 1
         }
         falseButton.setOnClickListener {
             checkAnswer(false)

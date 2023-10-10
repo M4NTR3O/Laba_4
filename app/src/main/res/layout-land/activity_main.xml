@@ -27,24 +27,12 @@
             android:text="@string/false_button"
             />
     </LinearLayout>
-    <LinearLayout
+    <Button
+        android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal">
-        <Button
-            android:id="@+id/prev_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_left"
-            android:drawablePadding="4dp"
-            android:text="@string/prev_button" />
-
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_right"
-            android:drawablePadding="4dp"
-            android:text="@string/next_button" />
-    </LinearLayout>
+        android:layout_gravity="bottom|right"
+        android:drawableEnd="@drawable/arrow_right"
+        android:drawablePadding="4dp"
+        android:text="@string/next_button" />
 </FrameLayout>
