@@ -47,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         }
         updateQuestion()
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart() called")
