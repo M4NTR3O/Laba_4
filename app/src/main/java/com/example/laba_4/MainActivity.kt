@@ -38,21 +38,25 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(true)
             trueButton.visibility= View.INVISIBLE
             falseButton.visibility= View.INVISIBLE
-            result_User += 1
+            if (currentIndex == questionBank.size - 1){
+                nextButton.visibility= View.INVISIBLE
+                Toast.makeText(this, "Your result = " + result_User, Toast.LENGTH_SHORT).show()
+            }
         }
         falseButton.setOnClickListener {
             checkAnswer(false)
             trueButton.visibility= View.INVISIBLE
             falseButton.visibility= View.INVISIBLE
+            if (currentIndex == questionBank.size - 1){
+                nextButton.visibility= View.INVISIBLE
+                Toast.makeText(this, "Your result = " + result_User, Toast.LENGTH_SHORT).show()
+            }
         }
         nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size
             trueButton.visibility= View.VISIBLE
             falseButton.visibility= View.VISIBLE
             updateQuestion()
-            if (currentIndex == 0){
-                nextButton.visibility= View.INVISIBLE
-            }
         }
         updateQuestion()
     }
@@ -100,6 +104,9 @@ class MainActivity : AppCompatActivity() {
             R.string.correct_toast
         } else {
             R.string.incorrect_toast
+        }
+        if (userAnswer == correctAnswer){
+            result_User += 1
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
