@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
+        currentIndex = savedInstanceState?.getInt("cur_key")?:0
+        result_User = savedInstanceState?.getInt("result")?:0
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
@@ -63,17 +65,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("cur_key", currentIndex)
-        outState.putInt("result", result_User)
+        outState?.run {
+            outState.putInt("cur_key", currentIndex)
+            outState.putInt("result", result_User)
+        }
         updateQuestion()
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState)
-        currentIndex = savedInstanceState!!.getInt("cur_key");
-        updateQuestion()
-        result_User = savedInstanceState.getInt("result")
-    }
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart() called")
