@@ -13,19 +13,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 private const val TAG = "MainActivity"
+private const val KEY_INDEX = "index"
+private const val KEY_RESULT = "result"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
     private lateinit var nextButton: Button
     private lateinit var questionTextView: TextView
-    private var result_User = 0
     private val quizViewModel: QuizViewModel by
     lazy {
         ViewModelProviders.of(this).get(QuizViewModel::class.java)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        val result_User = savedInstanceState?.getInt(KEY_RESULT, 0)?:0
+        quizViewModel.currentIndex = currentIndex
+        quizViewModel.result = result_User
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
         trueButton = findViewById(R.id.true_button)
@@ -59,9 +64,11 @@ class MainActivity : AppCompatActivity() {
         updateQuestion()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        Log.i(TAG, "onSaveInstanceState")
+        savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
+        savedInstanceState.putInt(KEY_RESULT, quizViewModel.result)
     }
 
     override fun onStart() {
