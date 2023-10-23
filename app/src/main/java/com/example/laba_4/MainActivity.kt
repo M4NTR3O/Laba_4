@@ -20,15 +20,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton: Button
     private lateinit var questionTextView: TextView
     private var result_User = 0
+    private val quizViewModel: QuizViewModel by
+    lazy {
+        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
-        val provider: ViewModelProvider = ViewModelProviders.of(this)
-        val quizViewModel = provider.get(QuizViewModel::class.java)
-        Log.d(TAG, "Got a QuizViewModel:$quizViewModel")
-        currentIndex = savedInstanceState?.getInt("cur_key")?:0
-        result_User = savedInstanceState?.getInt("result")?:0
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
         nextButton = findViewById(R.id.next_button)
@@ -37,24 +36,24 @@ class MainActivity : AppCompatActivity() {
             checkAnswer(true)
             trueButton.visibility= View.INVISIBLE
             falseButton.visibility= View.INVISIBLE
-            if (currentIndex == questionBank.size - 1){
+            if (quizViewModel.currentIndex == quizViewModel.questionBank.size - 1){
                 nextButton.visibility= View.INVISIBLE
-                Toast.makeText(this, "Your result = " + result_User, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Your result = " + quizViewModel.result, Toast.LENGTH_SHORT).show()
             }
         }
         falseButton.setOnClickListener {
             checkAnswer(false)
             trueButton.visibility= View.INVISIBLE
             falseButton.visibility= View.INVISIBLE
-            if (currentIndex == questionBank.size - 1){
+            if (quizViewModel.currentIndex == quizViewModel.questionBank.size - 1){
                 nextButton.visibility= View.INVISIBLE
-                Toast.makeText(this, "Your result = " + result_User, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Your result = " + quizViewModel.result, Toast.LENGTH_SHORT).show()
             }
         }
         nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
             trueButton.visibility= View.VISIBLE
             falseButton.visibility= View.VISIBLE
+            quizViewModel.moveToNext()
             updateQuestion()
         }
         updateQuestion()
@@ -62,11 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.run {
-            outState.putInt("cur_key", currentIndex)
-            outState.putInt("result", result_User)
-        }
-        updateQuestion()
+
     }
 
     override fun onStart() {
@@ -90,18 +85,18 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onDestroy() called")
     }
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
     }
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
         } else {
             R.string.incorrect_toast
         }
         if (userAnswer == correctAnswer){
-            result_User += 1
+            quizViewModel.result += 1
         }
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
