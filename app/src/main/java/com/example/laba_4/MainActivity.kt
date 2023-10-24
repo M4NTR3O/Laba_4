@@ -19,6 +19,7 @@ private const val KEY_INDEX = "index"
 private const val KEY_RESULT = "result"
 private const val REQUEST_CODE_CHEAT = 0
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button

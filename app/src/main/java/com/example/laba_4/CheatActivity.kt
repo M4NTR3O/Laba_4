@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
-const val EXTRA_ANSWER_SHOWN = "com.bignerdranch.android.geoquiz.answer_shown"
-private const val EXTRA_ANSWER_IS_TRUE = "com.bignerdranch.android.geoquiz.answer_is_true"
+const val EXTRA_ANSWER_SHOWN = ".answer_shown"
+private const val EXTRA_ANSWER_IS_TRUE = ".answer_is_true"
 class CheatActivity : AppCompatActivity() {
     private var answerIsTrue = false
     private lateinit var answerTextView: TextView
@@ -30,8 +30,7 @@ class CheatActivity : AppCompatActivity() {
             setAnswerShownResult(true)
         }
     }
-    private fun
-            setAnswerShownResult(isAnswerShown: Boolean) {
+    private fun setAnswerShownResult(isAnswerShown: Boolean) {
         val data = Intent().apply {
             putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
         }
